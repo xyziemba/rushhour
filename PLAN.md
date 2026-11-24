@@ -199,8 +199,15 @@ interface GameState {
 - Boosters such as extra bays, shuffle or helicopter lifts. These are easy to add later as engine functions if wanted.
 - Stacked or hidden vehicles, locks and mystery colors. These are possible v2 mechanics.
 
-## 9. Open questions
+## 9. Decisions
 
-1. Should a blocked tap count as a move? The plan says no.
-2. Should tapping be allowed when all bays are full? The plan says no: the vehicle shakes and shows an "Out of bays" hint.
-3. Is GitHub Pages the hosting target, or will it be served some other way?
+1. A blocked tap does **not** count as a move.
+2. Tapping is **not** allowed when all bays are full: the vehicle shakes and an "Out of bays" hint appears.
+3. Hosting: **GitHub Pages** via GitHub Actions.
+
+## 10. As built: differences from this plan
+
+- **Levels are generated, not hand-placed.** Each campaign level is a fixed set of generator parameters plus a seed (`src/levels/levels.ts`), so every player gets the same puzzles. The generator plans a play-through as it builds the passenger line. With probability `bury`, the line asks for a vehicle that's buried, so its blockers must be parked first. The generator stores the winning tap order with the level, and the tests replay it. The independent solver checks only the early levels, because the late ones are hard enough that a brute-force search is slow.
+- **Playwright** was used for manual checks at phone and desktop sizes, but no e2e suite is committed. Vitest covers the rules and the levels.
+- **Bigger screens** put the passenger line and bays in a left panel and the lot on the right. Symbols mode (color-blind aid) is a menu toggle.
+- Not done: PWA manifest and offline support.
