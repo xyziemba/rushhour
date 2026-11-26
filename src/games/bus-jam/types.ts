@@ -1,14 +1,7 @@
-export type Color =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'teal'
-  | 'blue'
-  | 'purple'
-  | 'pink';
+import type { Color } from '../../shell/palette';
 
-export const COLORS: Color[] = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'purple', 'pink'];
+export type { Color };
+export { COLORS } from '../../shell/palette';
 
 export type Dir = 'up' | 'down' | 'left' | 'right';
 

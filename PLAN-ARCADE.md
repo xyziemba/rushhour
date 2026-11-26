@@ -2,7 +2,7 @@
 
 This plan turns the single-game site into a hub of small, tap-friendly puzzle games that share one shell. Everything stays front-end only and static on GitHub Pages, and every game must work on phones and desktops.
 
-> **Working name.** "Rush Hour" is the trademarked name of an existing sliding-block board game. The hub needs a new name before it grows, especially since a sliding-block game is on this list. This doc uses **Puzzle Lot** as a placeholder, and the current game becomes **Bus Jam** inside it. (See [Open decisions](#8-open-decisions).)
+> **Name.** The site is **Puzzle Lot**, and the original game is **Bus Jam** inside it. The repository keeps its `rushhour` name, so the Pages URL doesn't change.
 
 ---
 
@@ -328,9 +328,13 @@ This is today's game, moved into `games/bus-jam` without rule changes. **Optiona
 
 ---
 
-## 8. Open decisions
+## 8. Decisions
 
-1. **Hub name:** Puzzle Lot, Jam Session, Tiny Puzzle Arcade, or something else? If the repo is renamed, the Pages URL changes (old links stop working unless a redirect page is left behind).
-2. **Real-time games:** keep Conveyor Sorter and a live Train Switches, or stay turn-based only?
-3. **Stars:** add star ratings to every game, including retrofitting Bus Jam, or keep plain move counts?
-4. **Order:** is the phase order above right, or should any game move earlier?
+1. **Name:** Puzzle Lot. The repo stays `rushhour`, so the URL is unchanged.
+2. **Real-time games:** keep them (Conveyor Sorter, live Train Switches).
+3. **Stars:** 1–3 stars in every game. Bus Jam can't use move counts, because a win always takes exactly one tap per vehicle, so its stars reward undo-free play instead (★★★ no undos, ★★ up to two).
+4. **Order:** phases as listed.
+
+## 9. Status
+
+- **Phase 0: done.** Hub, shell, router, storage v2 with migration from the old save, old-link redirects, code-split games, shared registry tests.

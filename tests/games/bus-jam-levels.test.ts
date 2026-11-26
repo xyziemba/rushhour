@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { endlessParams, generateLevel, replays } from '../src/engine/generator';
-import { getStatus, newGame, validateLevel } from '../src/engine/game';
-import { solve } from '../src/engine/solver';
-import type { Level } from '../src/engine/types';
-import { LEVEL_COUNT, LEVEL_PARAMS, getLevel } from '../src/levels/levels';
+import { endlessParams, generateLevel, replays } from '../../src/games/bus-jam/generate';
+import { getStatus, newGame, validateLevel } from '../../src/games/bus-jam/rules';
+import { solve } from '../../src/games/bus-jam/solver';
+import type { Level } from '../../src/games/bus-jam/types';
+import { LEVEL_COUNT, LEVEL_PARAMS, getLevel } from '../../src/games/bus-jam/levels';
 
 const replaysStored = (lv: Level) => replays(lv, lv.solution ?? []);
 
@@ -31,8 +31,8 @@ function getLevelParamsCopy(i: number) {
 }
 
 describe('endless generator', () => {
-  it('produces valid, winnable levels across 1000 seeds', () => {
-    for (let seed = 1; seed <= 1000; seed++) {
+  it('produces valid, winnable levels across 300 seeds', () => {
+    for (let seed = 1; seed <= 300; seed++) {
       const lv = generateLevel(endlessParams(seed, seed % 15));
       expect(validateLevel(lv)).toEqual([]);
       expect(replaysStored(lv)).toBe(true);

@@ -1,5 +1,5 @@
-import { generateLevel, type GenParams } from '../engine/generator';
-import type { Level } from '../engine/types';
+import { generateLevel, type GenParams } from './generate';
+import type { Level } from './types';
 
 /**
  * The campaign. Each level is built deterministically from fixed generator

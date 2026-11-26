@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { boardAll, exitVehicle, firstBlocker, getStatus, loseReason, newGame, tap, validateLevel } from '../src/engine/game';
-import type { Level, Vehicle } from '../src/engine/types';
+import { boardAll, exitVehicle, firstBlocker, getStatus, loseReason, newGame, tap, validateLevel } from '../../src/games/bus-jam/rules';
+import type { Level, Vehicle } from '../../src/games/bus-jam/types';
 
 const car = (id: string, color: Vehicle['color'], x: number, y: number, dir: Vehicle['dir'], length: Vehicle['length'] = 1, capacity = 2): Vehicle => ({
   id, color, x, y, dir, length, capacity,

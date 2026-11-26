@@ -302,243 +302,6 @@ kbd {
   margin-right: 4px;
 }
 
-.board {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 12px max(12px, env(safe-area-inset-bottom));
-}
-
-.station {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  background: var(--sidewalk);
-  border-radius: 18px;
-}
-
-/* Passenger line */
-.queue-wrap {
-  width: 100%;
-  max-width: 340px;
-}
-.queue {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(4, auto);
-  gap: 4px;
-}
-.person {
-  aspect-ratio: 1;
-  border-radius: 50% 50% 42% 42%;
-  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.55), transparent 45%), var(--c);
-  box-shadow: inset 0 -2px 0 var(--cd);
-  display: grid;
-  place-items: center;
-  font-size: 10px;
-  transition: transform 0.12s;
-}
-.person.front {
-  outline: 2px solid var(--ink);
-  outline-offset: 1px;
-}
-.queue-more {
-  text-align: center;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 6px;
-  min-height: 1em;
-}
-
-/* Bays */
-.bays {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 14px;
-  background: var(--road);
-}
-.bay {
-  flex: 1;
-  max-width: 64px;
-  aspect-ratio: 0.62;
-  border: 2px dashed rgba(255, 255, 255, 0.55);
-  border-radius: 10px;
-  display: grid;
-  place-items: stretch;
-  padding: 3px;
-}
-.bay-vehicle {
-  position: relative;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.06), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.08)), var(--c);
-  box-shadow: inset 0 -4px 0 var(--cd), 0 3px 6px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding-bottom: 8px;
-  transition: transform 0.3s ease-in, opacity 0.3s ease-in;
-}
-.bay-vehicle .glass {
-  position: absolute;
-  top: 5px;
-  left: 18%;
-  right: 18%;
-  height: 18%;
-  border-radius: 4px;
-  background: rgba(220, 240, 255, 0.85);
-}
-.bay-vehicle .sym {
-  position: absolute;
-  top: 40%;
-  font-size: 12px;
-}
-.bay-vehicle .seats {
-  background: rgba(0, 0, 0, 0.35);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.85rem;
-  border-radius: 6px;
-  padding: 1px 6px;
-  font-variant-numeric: tabular-nums;
-}
-.bay-vehicle.parked {
-  animation: park 0.28s ease-out;
-}
-.bay-vehicle.departing {
-  transform: translateY(-140%);
-  opacity: 0;
-}
-@keyframes park {
-  from {
-    transform: translateY(40%) scale(0.8);
-    opacity: 0;
-  }
-}
-
-/* Lot */
-.lot-wrap {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  place-items: center;
-}
-.lot {
-  --cell: 48px;
-  position: relative;
-  width: calc(var(--cell) * var(--cols));
-  height: calc(var(--cell) * var(--rows));
-  box-sizing: content-box;
-  padding: 6px;
-  border-radius: 16px;
-  background:
-    linear-gradient(var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
-    linear-gradient(90deg, var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
-    var(--lot);
-  background-origin: content-box;
-  overflow: hidden;
-}
-
-.vehicle {
-  position: absolute;
-  left: calc(6px + var(--cell) * var(--x));
-  top: calc(6px + var(--cell) * var(--y));
-  width: calc(var(--cell) * var(--w));
-  height: calc(var(--cell) * var(--h));
-  padding: calc(var(--cell) * 0.07);
-  border: 0;
-  background: none;
-  cursor: pointer;
-  z-index: 1;
-}
-.vehicle.leaving {
-  z-index: 5;
-  pointer-events: none;
-}
-.vehicle .body {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: calc(var(--cell) * 0.2);
-  background: var(--c);
-  box-shadow: inset 0 calc(var(--cell) * -0.07) 0 var(--cd), 0 2px 4px rgba(0, 0, 0, 0.25);
-  transition: transform 0.1s;
-}
-.vehicle:active .body {
-  transform: scale(0.96);
-}
-@media (hover: hover) {
-  .vehicle:hover .body {
-    filter: brightness(1.07);
-  }
-}
-/* Windshield at the front of the vehicle */
-.vehicle .glass {
-  position: absolute;
-  background: rgba(220, 240, 255, 0.85);
-  border-radius: calc(var(--cell) * 0.08);
-}
-.vehicle.dir-up .glass { top: 10%; left: 18%; right: 18%; height: calc(var(--cell) * 0.16); }
-.vehicle.dir-down .glass { bottom: 14%; left: 18%; right: 18%; height: calc(var(--cell) * 0.16); }
-.vehicle.dir-left .glass { left: 8%; top: 18%; bottom: 22%; width: calc(var(--cell) * 0.16); }
-.vehicle.dir-right .glass { right: 8%; top: 18%; bottom: 22%; width: calc(var(--cell) * 0.16); }
-
-.vehicle .arrow {
-  width: calc(var(--cell) * 0.46);
-  height: calc(var(--cell) * 0.46);
-  color: #fff;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
-}
-.vehicle .arrow svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.vehicle.dir-right .arrow { transform: rotate(90deg); }
-.vehicle.dir-down .arrow { transform: rotate(180deg); }
-.vehicle.dir-left .arrow { transform: rotate(270deg); }
-.vehicle .sym {
-  position: absolute;
-  font-size: calc(var(--cell) * 0.22);
-}
-.vehicle.vert .sym { bottom: 14%; }
-.vehicle.dir-down .sym { bottom: auto; top: 10%; }
-.vehicle.horiz .sym { top: 50%; transform: translateY(-50%); }
-.vehicle.dir-right .sym { left: 10%; }
-.vehicle.dir-left .sym { right: 10%; }
-
-.vehicle.shake.horiz { animation: shake-x 0.35s; }
-.vehicle.shake.vert { animation: shake-y 0.35s; }
-@keyframes shake-x {
-  20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(3px); }
-}
-@keyframes shake-y {
-  20% { transform: translateY(-5px); }
-  40% { transform: translateY(5px); }
-  60% { transform: translateY(-3px); }
-  80% { transform: translateY(3px); }
-}
-.vehicle.blocker .body {
-  animation: blocker 0.6s;
-}
-@keyframes blocker {
-  30% { box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--red); }
-}
-
 /* ---------- toast & overlay ---------- */
 .toast {
   position: absolute;
@@ -608,21 +371,6 @@ kbd {
   from { transform: scale(0.9); opacity: 0; }
 }
 
-/* ---------- wide screens: station on the left, lot on the right ---------- */
-@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
-  .board {
-    flex-direction: row;
-    gap: 16px;
-  }
-  .station {
-    width: min(38%, 380px);
-    justify-content: center;
-    gap: 20px;
-  }
-  .lot-wrap {
-    flex: 1;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -633,30 +381,130 @@ kbd {
   }
 }
 
-/* Short phones: tighten the station so the lot gets more room. */
-@media (max-height: 720px) and (max-aspect-ratio: 5/4) {
-  .station {
-    padding: 8px;
-    gap: 6px;
-  }
-  .queue-wrap {
-    max-width: 250px;
-  }
-  .queue-more {
-    margin-top: 2px;
-  }
-  .bays {
-    max-width: 320px;
-    padding: 6px;
-  }
-  .bay {
-    max-width: 46px;
-  }
+
+/* ---------- game host ---------- */
+.board-host {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Wide screens: bigger passengers in the side panel. */
-@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
-  .queue-wrap {
-    max-width: 100%;
-  }
+/* ---------- stars ---------- */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  letter-spacing: 0;
+}
+.star {
+  color: var(--line);
+}
+.star.on {
+  color: #f5b301;
+}
+.card-stars {
+  font-size: 2.2rem;
+  margin: 4px 0 10px;
+}
+.card-stars .star.on {
+  animation: star-pop 0.35s ease-out backwards;
+}
+.card-stars .star.on:nth-child(2) { animation-delay: 0.12s; }
+.card-stars .star.on:nth-child(3) { animation-delay: 0.24s; }
+@keyframes star-pop {
+  from { transform: scale(0.2); opacity: 0; }
+  70% { transform: scale(1.25); }
+}
+
+/* ---------- hub ---------- */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.game-card {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(20, 22, 40, 0.05);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.game-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+.game-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.game-card.last {
+  border-color: var(--accent);
+}
+.game-card svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+  border-radius: 14px;
+}
+.game-card .gc-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.game-card .gc-tag {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+.game-card .gc-progress {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.game-card .gc-progress .star.on {
+  color: #f5b301;
+}
+.settings {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.settings .toggle {
+  margin-top: 0;
+}
+.btn.subtle {
+  background: none;
+  color: var(--muted);
+}
+
+/* ---------- level select ---------- */
+.page-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.page-head svg {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex: none;
+}
+.page-head h1 {
+  font-size: 1.5rem;
+}
+.level-btn .stars {
+  font-size: 0.85rem;
 }

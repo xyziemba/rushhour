@@ -1,4 +1,4 @@
-import { canExit, getStatus, newGame, tap } from './game';
+import { canExit, getStatus, newGame, tap } from './rules';
 import type { GameState, Level } from './types';
 
 function key(s: GameState): string {

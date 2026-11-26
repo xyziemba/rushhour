@@ -1,18 +1,7 @@
-import { firstBlocker, getStatus, newGame, tap, validateLevel } from './game';
+import { mulberry32 } from '../../lib/rng';
+import { firstBlocker, getStatus, newGame, tap, validateLevel } from './rules';
 import { exitPath, inBounds, occupancy, vehicleCells } from './grid';
 import { CAPACITY, COLORS, type Color, type Dir, type GameState, type Length, type Level, type Vehicle } from './types';
-
-/** Small, fast, seedable PRNG. */
-export function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 
 export interface GenParams {
   seed: number;

@@ -1,0 +1,295 @@
+/* Bus Jam: station (passenger line + bays) and the parking lot. Scoped under .g-bus-jam. */
+
+.g-bus-jam .board {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 12px max(12px, env(safe-area-inset-bottom));
+}
+
+.g-bus-jam .station {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--sidewalk);
+  border-radius: 18px;
+}
+
+/* Passenger line */
+.g-bus-jam .queue-wrap {
+  width: 100%;
+  max-width: 340px;
+}
+.g-bus-jam .queue {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 4px;
+}
+.g-bus-jam .person {
+  aspect-ratio: 1;
+  border-radius: 50% 50% 42% 42%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.55), transparent 45%), var(--c);
+  box-shadow: inset 0 -2px 0 var(--cd);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  transition: transform 0.12s;
+}
+.g-bus-jam .person.front {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+.g-bus-jam .queue-more {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 6px;
+  min-height: 1em;
+}
+
+/* Bays */
+.g-bus-jam .bays {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--road);
+}
+.g-bus-jam .bay {
+  flex: 1;
+  max-width: 64px;
+  aspect-ratio: 0.62;
+  border: 2px dashed rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  display: grid;
+  place-items: stretch;
+  padding: 3px;
+}
+.g-bus-jam .bay-vehicle {
+  position: relative;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.06), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.08)), var(--c);
+  box-shadow: inset 0 -4px 0 var(--cd), 0 3px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+  transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+.g-bus-jam .bay-vehicle .glass {
+  position: absolute;
+  top: 5px;
+  left: 18%;
+  right: 18%;
+  height: 18%;
+  border-radius: 4px;
+  background: rgba(220, 240, 255, 0.85);
+}
+.g-bus-jam .bay-vehicle .sym {
+  position: absolute;
+  top: 40%;
+  font-size: 12px;
+}
+.g-bus-jam .bay-vehicle .seats {
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+.g-bus-jam .bay-vehicle.parked {
+  animation: park 0.28s ease-out;
+}
+.g-bus-jam .bay-vehicle.departing {
+  transform: translateY(-140%);
+  opacity: 0;
+}
+@keyframes park {
+  from {
+    transform: translateY(40%) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Lot */
+.g-bus-jam .lot-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+.g-bus-jam .lot {
+  --cell: 48px;
+  position: relative;
+  width: calc(var(--cell) * var(--cols));
+  height: calc(var(--cell) * var(--rows));
+  box-sizing: content-box;
+  padding: 6px;
+  border-radius: 16px;
+  background:
+    linear-gradient(var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
+    linear-gradient(90deg, var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
+    var(--lot);
+  background-origin: content-box;
+  overflow: hidden;
+}
+
+.g-bus-jam .vehicle {
+  position: absolute;
+  left: calc(6px + var(--cell) * var(--x));
+  top: calc(6px + var(--cell) * var(--y));
+  width: calc(var(--cell) * var(--w));
+  height: calc(var(--cell) * var(--h));
+  padding: calc(var(--cell) * 0.07);
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.g-bus-jam .vehicle.leaving {
+  z-index: 5;
+  pointer-events: none;
+}
+.g-bus-jam .vehicle .body {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--cell) * 0.2);
+  background: var(--c);
+  box-shadow: inset 0 calc(var(--cell) * -0.07) 0 var(--cd), 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.1s;
+}
+.g-bus-jam .vehicle:active .body {
+  transform: scale(0.96);
+}
+@media (hover: hover) {
+  .g-bus-jam .vehicle:hover .body {
+    filter: brightness(1.07);
+  }
+}
+/* Windshield at the front of the vehicle */
+.g-bus-jam .vehicle .glass {
+  position: absolute;
+  background: rgba(220, 240, 255, 0.85);
+  border-radius: calc(var(--cell) * 0.08);
+}
+.g-bus-jam .vehicle.dir-up .glass { top: 10%; left: 18%; right: 18%; height: calc(var(--cell) * 0.16); }
+.g-bus-jam .vehicle.dir-down .glass { bottom: 14%; left: 18%; right: 18%; height: calc(var(--cell) * 0.16); }
+.g-bus-jam .vehicle.dir-left .glass { left: 8%; top: 18%; bottom: 22%; width: calc(var(--cell) * 0.16); }
+.g-bus-jam .vehicle.dir-right .glass { right: 8%; top: 18%; bottom: 22%; width: calc(var(--cell) * 0.16); }
+
+.g-bus-jam .vehicle .arrow {
+  width: calc(var(--cell) * 0.46);
+  height: calc(var(--cell) * 0.46);
+  color: #fff;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+.g-bus-jam .vehicle .arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.g-bus-jam .vehicle.dir-right .arrow { transform: rotate(90deg); }
+.g-bus-jam .vehicle.dir-down .arrow { transform: rotate(180deg); }
+.g-bus-jam .vehicle.dir-left .arrow { transform: rotate(270deg); }
+.g-bus-jam .vehicle .sym {
+  position: absolute;
+  font-size: calc(var(--cell) * 0.22);
+}
+.g-bus-jam .vehicle.vert .sym { bottom: 14%; }
+.g-bus-jam .vehicle.dir-down .sym { bottom: auto; top: 10%; }
+.g-bus-jam .vehicle.horiz .sym { top: 50%; transform: translateY(-50%); }
+.g-bus-jam .vehicle.dir-right .sym { left: 10%; }
+.g-bus-jam .vehicle.dir-left .sym { right: 10%; }
+
+.g-bus-jam .vehicle.shake.horiz { animation: shake-x 0.35s; }
+.g-bus-jam .vehicle.shake.vert { animation: shake-y 0.35s; }
+@keyframes shake-x {
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes shake-y {
+  20% { transform: translateY(-5px); }
+  40% { transform: translateY(5px); }
+  60% { transform: translateY(-3px); }
+  80% { transform: translateY(3px); }
+}
+.g-bus-jam .vehicle.blocker .body {
+  animation: blocker 0.6s;
+}
+@keyframes blocker {
+  30% { box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--red); }
+}
+
+
+/* ---------- wide screens: station on the left, lot on the right ---------- */
+@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
+  .g-bus-jam .board {
+    flex-direction: row;
+    gap: 16px;
+  }
+  .g-bus-jam .station {
+    width: min(38%, 380px);
+    justify-content: center;
+    gap: 20px;
+  }
+  .g-bus-jam .lot-wrap {
+    flex: 1;
+  }
+}
+
+
+/* Short phones: tighten the station so the lot gets more room. */
+@media (max-height: 720px) and (max-aspect-ratio: 5/4) {
+  .g-bus-jam .station {
+    padding: 8px;
+    gap: 6px;
+  }
+  .g-bus-jam .queue-wrap {
+    max-width: 250px;
+  }
+  .g-bus-jam .queue-more {
+    margin-top: 2px;
+  }
+  .g-bus-jam .bays {
+    max-width: 320px;
+    padding: 6px;
+  }
+  .g-bus-jam .bay {
+    max-width: 46px;
+  }
+}
+
+/* Wide screens: bigger passengers in the side panel. */
+@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
+  .g-bus-jam .queue-wrap {
+    max-width: 100%;
+  }
+}
+
+
+/* One-cell cars: tuck the color symbol into a corner so it doesn't cover the arrow. */
+.g-bus-jam .vehicle.len-1 .sym {
+  top: 7%;
+  left: 9%;
+  right: auto;
+  bottom: auto;
+  transform: none;
+  font-size: calc(var(--cell) * 0.17);
+}
