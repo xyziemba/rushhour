@@ -38,6 +38,30 @@ export const GAMES: GameMeta[] = [
     icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g stroke="#d6d9e6" stroke-width="2.5" fill="none"><path d="M12 12v34a6 6 0 0 0 12 0V12"/><path d="M26 12v34a6 6 0 0 0 12 0V12"/><path d="M40 12v34a6 6 0 0 0 12 0V12"/></g><path d="M14 36h8v10a4 4 0 0 1-8 0z" fill="#e5484d"/><path d="M14 26h8v10h-8z" fill="#3a6df0"/><path d="M28 36h8v10a4 4 0 0 1-8 0z" fill="#3a6df0"/><path d="M28 26h8v10h-8z" fill="#e5484d"/><path d="M42 36h8v10a4 4 0 0 1-8 0z" fill="#f5c518"/></svg>`,
     load: () => import('./color-tubes/index').then((m) => m.default),
   },
+  {
+    id: 'pipe-turn',
+    title: 'Pipe Turn',
+    tagline: 'Rotate pipes until water reaches every tile.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g fill="#4cc3ff"><rect x="28" y="10" width="8" height="24" rx="2"/><rect x="28" y="28" width="26" height="8" rx="2"/><rect x="10" y="28" width="18" height="8" rx="2"/><rect x="10" y="28" width="8" height="26" rx="2"/></g><circle cx="32" cy="32" r="8" fill="#3a6df0"/><rect x="40" y="42" width="8" height="14" rx="2" fill="#8d92ad"/></svg>`,
+    load: () => import('./pipe-turn/index').then((m) => m.default),
+  },
+  {
+    id: 'screw-sort',
+    title: 'Screw Sort',
+    tagline: 'Unscrew the plates and box screws by color.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="16" width="34" height="26" rx="8" fill="#a9c4d6"/><rect x="22" y="26" width="34" height="26" rx="8" fill="#c9b79c" opacity=".95"/><circle cx="16" cy="24" r="5" fill="#e5484d"/><circle cx="32" cy="36" r="5" fill="#3a6df0"/><circle cx="46" cy="44" r="5" fill="#f5c518"/><circle cx="46" cy="33" r="5" fill="#46b04a"/></svg>`,
+    load: () => import('./screw-sort/index').then((m) => m.default),
+  },
+  {
+    id: 'block-fit',
+    title: 'Block Fit',
+    tagline: 'Place pieces, fill rows and columns, hit the target.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g><rect x="10" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="25" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="25" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="25" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="25" width="13" height="13" rx="3" fill="#f5c518"/></g></svg>`,
+    load: () => import('./block-fit/index').then((m) => m.default),
+  },
 ];
 
 export const findGame = (id: string): GameMeta | undefined => GAMES.find((g) => g.id === id);

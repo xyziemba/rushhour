@@ -1,0 +1,102 @@
+.g-block-fit .bf-goal {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.g-block-fit .bf-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+}
+.g-block-fit .bf-board {
+  --cell: 40px;
+  display: grid;
+  grid-template-columns: repeat(8, var(--cell));
+  grid-template-rows: repeat(8, var(--cell));
+  gap: 0;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--road);
+}
+.g-block-fit .bf-cell {
+  border: 0;
+  padding: 0;
+  margin: 1.5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+}
+.g-block-fit .bf-cell.filled,
+.g-block-fit .bf-block {
+  background: linear-gradient(rgba(255, 255, 255, 0.3), transparent 60%), var(--c);
+  box-shadow: inset 0 -3px 0 var(--cd);
+}
+.g-block-fit .bf-cell.filled { cursor: default; }
+.g-block-fit .c-stone { --c: #7c8096; --cd: #5b5f75; }
+.g-block-fit .bf-cell.pop { animation: bf-pop 0.2s ease-out; }
+.g-block-fit .bf-cell.clearing { animation: bf-clear 0.32s ease-in forwards; }
+.g-block-fit .bf-cell.ghost-ok { background: rgba(255, 255, 255, 0.45); }
+.g-block-fit .bf-cell.ghost-bad { background: rgba(229, 72, 77, 0.45); }
+.g-block-fit .bf-cell:focus-visible { outline: 2px solid var(--yellow); }
+@keyframes bf-pop { from { transform: scale(0.6); } }
+@keyframes bf-clear {
+  30% { filter: brightness(1.8); transform: scale(1.08); }
+  to { transform: scale(0.2); opacity: 0; }
+}
+.g-block-fit .bf-tray {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: min(100% - 24px, 440px);
+  align-self: center;
+  margin: 10px 0 max(14px, env(safe-area-inset-bottom));
+}
+.g-block-fit .bf-slot {
+  height: 104px;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  touch-action: none;
+}
+.g-block-fit .bf-slot.selected { border-color: var(--accent); }
+.g-block-fit .bf-slot.lifted .bf-piece { opacity: 0.25; }
+.g-block-fit .bf-slot.dead .bf-piece { filter: grayscale(1); opacity: 0.45; }
+.g-block-fit .bf-slot:disabled { cursor: default; }
+.g-block-fit .bf-piece {
+  --cell: 18px;
+  display: grid;
+  grid-template-columns: repeat(var(--pw), var(--cell));
+  grid-template-rows: repeat(var(--ph), var(--cell));
+  pointer-events: none;
+}
+.g-block-fit .bf-piece .bf-block { margin: 1px; border-radius: 4px; }
+.bf-piece.drag {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(var(--pw), var(--cell));
+  grid-template-rows: repeat(var(--ph), var(--cell));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
+}
+.bf-piece.drag .bf-block {
+  margin: 1.5px;
+  border-radius: 6px;
+  background: linear-gradient(rgba(255, 255, 255, 0.3), transparent 60%), var(--c);
+  box-shadow: inset 0 -3px 0 var(--cd);
+}
+@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
+  .g-block-fit .board-host { flex-direction: row; flex-wrap: wrap; align-content: center; }
+  .g-block-fit .bf-goal { width: 100%; }
+  .g-block-fit .bf-wrap { flex: 1; height: 100%; }
+  .g-block-fit .bf-tray { grid-template-columns: 1fr; width: 200px; margin: 0 24px 0 0; align-self: center; }
+  .g-block-fit .bf-slot { height: 128px; }
+  .g-block-fit .bf-slot .bf-piece { --cell: 24px; }
+}

@@ -1,0 +1,39 @@
+.g-pipe-turn .pt-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 12px max(12px, env(safe-area-inset-bottom));
+}
+.g-pipe-turn .pt-board {
+  --cell: 48px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  grid-template-rows: repeat(var(--rows), var(--cell));
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--road);
+  border: 1px solid var(--line);
+}
+.g-pipe-turn .pt-cell {
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.g-pipe-turn .pt-cell svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform: rotate(var(--turn));
+  transition: transform 0.15s ease-out;
+}
+.g-pipe-turn .pt-cell.no-anim svg { transition: none; }
+.g-pipe-turn .pipe { fill: #8d92ad; transition: fill 0.25s; }
+.g-pipe-turn .wet .pipe { fill: #4cc3ff; }
+.g-pipe-turn .pipe .src { fill: var(--blue); }
+.g-pipe-turn .pt-cell:focus-visible { outline: 3px solid var(--yellow); outline-offset: -3px; }
+@media (hover: hover) {
+  .g-pipe-turn .pt-cell:hover { background: rgba(255, 255, 255, 0.07); }
+}
