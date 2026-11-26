@@ -45,7 +45,8 @@ const game: GameModule<Level, State, Move, Event> = {
   status,
   lossMessage: () => ({ title: 'Stuck', body: '' }),
   stars: (s): Stars => (s.runs === 0 ? 3 : s.runs === 1 ? 2 : 1),
-  hudText: (s, stats) => `${stats.moves} moves · ${s.runs} failed`,
+  hudText: (s) => (s.runs ? `${s.runs} failed ${s.runs === 1 ? 'run' : 'runs'}` : 'First run'),
+  resultText: (s) => (s.runs === 0 ? 'Solved on the first run' : `Solved on run ${s.runs + 1}`),
   mountView: (host, ctx, level, state) => new TrainView(host, ctx, level, state),
 };
 

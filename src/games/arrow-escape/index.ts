@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign } from '../../shell/helpers';
+import { makeCampaign, plural } from '../../shell/helpers';
 import type { GameModule, Stars } from '../../shell/types';
 import { generate, init, status, tap, type Event, type Level, type Params, type State } from './rules';
 import { ArrowView } from './view';
@@ -50,6 +50,7 @@ const game: GameModule<Level, State, string, Event> = {
   status,
   lossMessage: () => ({ title: 'Out of hearts!', body: 'Three crashes. Look for arrows with a clear path to the edge.' }),
   stars: (s): Stars => (s.crashes === 0 ? 3 : s.crashes === 1 ? 2 : 1),
+  resultText: (s) => (s.crashes ? plural(s.crashes, 'crash', 'crashes') : 'No crashes'),
   hudText: (s) => `${'♥'.repeat(Math.max(0, s.lives))}${'♡'.repeat(Math.max(0, 3 - s.lives))} · ${s.pieces.length} left`,
   mountView: (host, ctx, level, state) => new ArrowView(host, ctx, level, state),
 };

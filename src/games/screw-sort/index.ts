@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign, starsByUndos } from '../../shell/helpers';
+import { makeCampaign, starsByUndos, undoText } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import { generate, init, status, unscrew, type Event, type Level, type Params, type State } from './rules';
 import { ScrewView } from './view';
@@ -47,6 +47,7 @@ const game: GameModule<Level, State, string, Event> = {
   lossMessage: () => ({ title: 'Out of holes!', body: 'Every spare hole is full and no reachable screw fits an open box.' }),
   stars: (_s, stats) => starsByUndos(stats.undos),
   hudText: (s) => `${s.screws.length} screws left`,
+  resultText: (_s, stats) => undoText(stats.undos),
   mountView: (host, ctx, level, state) => new ScrewView(host, ctx, level, state),
 };
 

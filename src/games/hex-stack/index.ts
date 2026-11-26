@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign, starsByUndos } from '../../shell/helpers';
+import { makeCampaign, starsByUndos, undoText } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import { generate, init, place, status, type Event, type Level, type Move, type Params, type State } from './rules';
 import { HexView } from './view';
@@ -46,6 +46,7 @@ const game: GameModule<Level, State, Move, Event> = {
   lossMessage: (s) => ({ title: 'Board full!', body: `No empty spaces left. You scored ${s.score} of ${s.target}.` }),
   stars: (_s, stats) => starsByUndos(stats.undos),
   hudText: (s) => `${s.score} / ${s.target}`,
+  resultText: (s, stats) => `Score ${s.score} / ${s.target} · ${undoText(stats.undos).toLowerCase()}`,
   mountView: (host, ctx, level, state) => new HexView(host, ctx, level, state),
 };
 

@@ -48,6 +48,7 @@ const game: GameModule<Level, State, number, unknown> = {
   status,
   lossMessage: (s) => ({ title: 'Shift over!', body: `Three parcels went to the wrong bin. You sorted ${s.sorted} of ${s.level.schedule.length}.` }),
   stars: (s): Stars => (s.misses === 0 ? 3 : s.misses === 1 ? 2 : 1),
+  resultText: (s) => `${s.sorted}/${s.level.schedule.length} sorted · ${s.misses ? `${s.misses} wrong` : 'no mistakes'}`,
   hudText: (s) => `${s.sorted}/${s.level.schedule.length} · ${'✕'.repeat(s.misses)}${'·'.repeat(MAX_MISSES - s.misses)}`,
   mountView: (host, ctx, level, state) => new ConveyorView(host, ctx, level, state),
 };

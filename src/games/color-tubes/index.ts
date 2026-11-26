@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign, starsByPar } from '../../shell/helpers';
+import { makeCampaign, plural, starsByPar } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import { generate, init, pour, status, type Event, type Level, type Move, type Params, type State } from './rules';
 import { TubesView } from './view';
@@ -44,7 +44,9 @@ const game: GameModule<Level, State, Move, Event> = {
   status,
   lossMessage: () => ({ title: 'Stuck!', body: 'No pours are possible. Undo a few steps and try another order.' }),
   stars: (_s, stats, level) => starsByPar(stats.moves, level.par),
-  hudText: (_s, stats) => `${stats.moves} pours`,
+  tracksBest: true,
+  hudText: (_s, stats, level) => `${plural(stats.moves, 'pour')} · target ${level.par}`,
+  resultText: (_s, stats, level) => `${plural(stats.moves, 'pour')} (target ${level.par})`,
   mountView: (host, ctx, level, state) => new TubesView(host, ctx, level, state),
 };
 

@@ -1,5 +1,5 @@
 import './style.css';
-import { starsByPar } from '../../shell/helpers';
+import { plural, starsByPar } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import LEVELS from './levels.json';
 import { SLIDE_PARAMS } from './params';
@@ -32,7 +32,9 @@ const game: GameModule<Level, State, Move, unknown> = {
   status,
   lossMessage: () => ({ title: 'Stuck', body: '' }),
   stars: (_s, stats, level) => starsByPar(stats.moves, level.par),
-  hudText: (_s, stats) => `${stats.moves} moves`,
+  tracksBest: true,
+  hudText: (_s, stats, level) => `${plural(stats.moves, 'move')} · target ${level.par}`,
+  resultText: (_s, stats, level) => `${plural(stats.moves, 'move')} (target ${level.par})`,
   mountView: (host, ctx, _level, state) => new SlideView(host, ctx, state),
 };
 

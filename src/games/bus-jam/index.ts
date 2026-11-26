@@ -1,4 +1,5 @@
 import './style.css';
+import { undoText } from '../../shell/helpers';
 import type { GameModule, Stars } from '../../shell/types';
 import { endlessParams, generateLevel } from './generate';
 import { LEVEL_COUNT, LEVEL_PARAMS, getLevel } from './levels';
@@ -47,6 +48,7 @@ const game: GameModule<Level, GameState, BusJamMove, unknown> = {
       : { title: 'Out of bays!', body: 'Every bay is full and nobody at the front of the line can board.' },
   stars: (_state, stats) => busJamStars(stats.undos),
   hudText: (state) => `${state.lot.length} left · ${state.queue.length} waiting`,
+  resultText: (_s, stats) => undoText(stats.undos),
   mountView: (host, ctx, level, state) => new BusJamView(host, ctx, level, state),
 };
 

@@ -1,5 +1,6 @@
 import './style.css';
 import type { Dir4 } from '../../lib/grid';
+import { plural } from '../../shell/helpers';
 import type { GameModule, Stars } from '../../shell/types';
 import LEVELS from './levels.json';
 import { CRATE_PARAMS } from './params';
@@ -33,7 +34,9 @@ const game: GameModule<Level, State, Dir4, Event> = {
   status,
   lossMessage: () => ({ title: 'Stuck', body: '' }),
   stars: (_s, stats, level): Stars => (stats.moves <= Math.ceil(level.par * 1.2) ? 3 : stats.moves <= Math.ceil(level.par * 1.8) ? 2 : 1),
-  hudText: (s, stats) => `${stats.moves} steps · ${s.pushes} pushes`,
+  tracksBest: true,
+  hudText: (_s, stats, level) => `${plural(stats.moves, 'step')} · target ${level.par}`,
+  resultText: (s, stats, level) => `${plural(stats.moves, 'step')} (target ${level.par}), ${plural(s.pushes, 'push', 'pushes')}`,
   mountView: (host, ctx, level, state) => new CrateView(host, ctx, level, state),
 };
 

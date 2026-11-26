@@ -222,8 +222,16 @@ export class GameShell<L extends LevelBase, S, M, E> {
   }
 
   private refreshHud(): void {
-    this.counterEl.textContent =
-      this.game.hudText?.(this.state, this.stats) ?? `${this.stats.moves} ${this.stats.moves === 1 ? 'move' : 'moves'}`;
+    const text = this.game.hudText?.(this.state, this.stats, this.level) ?? `${this.stats.moves} ${this.stats.moves === 1 ? 'move' : 'moves'}`;
+    // Parts separated by " · " stack on narrow screens (see shell.css).
+    const parts = text.split(' · ');
+    this.counterEl.replaceChildren(
+      ...parts.flatMap((part, i) => {
+        const span = el('span', 'hud-part');
+        span.textContent = part;
+        return i ? [el('span', 'hud-sep', ' · '), span] : [span];
+      }),
+    );
     this.undoBtn.disabled = this.history.length === 0;
   }
 
@@ -247,16 +255,17 @@ export class GameShell<L extends LevelBase, S, M, E> {
     const card = el('div', 'card');
     card.setAttribute('role', 'dialog');
     card.setAttribute('aria-label', 'Level complete');
+    const summary = this.game.resultText?.(this.state, this.stats, this.level) ?? `${this.stats.moves} moves`;
     const bestText =
       bestStars !== undefined && bestStars > stars
-        ? ` · best ${'★'.repeat(bestStars)}`
-        : best !== undefined && best < this.stats.moves
-          ? ` · best ${best}`
+        ? ` · your best ${'★'.repeat(bestStars)}`
+        : this.game.tracksBest && best !== undefined && best < this.stats.moves
+          ? ` · your best ${best}`
           : '';
     card.append(
       el('h2', '', 'Solved!'),
       el('div', 'card-stars', starsHtml(stars)),
-      el('p', '', `${this.stats.moves} moves${this.stats.undos ? `, ${this.stats.undos} undo${this.stats.undos === 1 ? '' : 's'}` : ''}${bestText}`),
+      el('p', '', `${summary}${bestText}`),
     );
     const actions = el('div', 'actions');
     if (next) actions.append(button(next.label, () => next.go(), true));
