@@ -1,0 +1,82 @@
+.g-arrow-escape .ae-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 12px max(12px, env(safe-area-inset-bottom));
+}
+.g-arrow-escape .ae-board {
+  --cell: 48px;
+  position: relative;
+  width: calc(var(--cell) * var(--cols));
+  height: calc(var(--cell) * var(--rows));
+  box-sizing: content-box;
+  padding: 6px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle, var(--lot-grid) 1.5px, transparent 2px) 0 0 / var(--cell) var(--cell) content-box,
+    var(--surface);
+  background-origin: content-box;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.g-arrow-escape .ae-piece {
+  --col: var(--blue);
+  position: absolute;
+  left: calc(6px + var(--cell) * var(--x));
+  top: calc(6px + var(--cell) * var(--y));
+  width: calc(var(--cell) * var(--w));
+  height: calc(var(--cell) * var(--h));
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--col);
+  transition: transform 0.26s cubic-bezier(0.5, 0, 0.9, 0.6), opacity 0.26s;
+}
+.g-arrow-escape .ae-piece.d-up { --col: var(--blue); }
+.g-arrow-escape .ae-piece.d-right { --col: var(--green); }
+.g-arrow-escape .ae-piece.d-down { --col: var(--orange); }
+.g-arrow-escape .ae-piece.d-left { --col: var(--purple); }
+.g-arrow-escape .ae-piece.leaving { opacity: 0; pointer-events: none; z-index: 2; }
+.g-arrow-escape .ae-shaft {
+  position: absolute;
+  background: var(--col);
+  border-radius: 99px;
+}
+.g-arrow-escape .ae-head {
+  position: absolute;
+  width: calc(var(--cell) * 0.7);
+  height: calc(var(--cell) * 0.7);
+}
+.g-arrow-escape .ae-head svg { width: 100%; height: 100%; display: block; }
+/* shaft runs the length of the piece; head sits at the leading end */
+.g-arrow-escape .d-up .ae-shaft, .g-arrow-escape .d-down .ae-shaft {
+  left: calc(50% - var(--cell) * 0.09);
+  width: calc(var(--cell) * 0.18);
+  top: calc(var(--cell) * 0.3);
+  bottom: calc(var(--cell) * 0.3);
+}
+.g-arrow-escape .d-left .ae-shaft, .g-arrow-escape .d-right .ae-shaft {
+  top: calc(50% - var(--cell) * 0.09);
+  height: calc(var(--cell) * 0.18);
+  left: calc(var(--cell) * 0.3);
+  right: calc(var(--cell) * 0.3);
+}
+.g-arrow-escape .d-up .ae-head { top: calc(var(--cell) * 0.08); left: calc(50% - var(--cell) * 0.35); }
+.g-arrow-escape .d-down .ae-head { bottom: calc(var(--cell) * 0.08); left: calc(50% - var(--cell) * 0.35); transform: rotate(180deg); }
+.g-arrow-escape .d-left .ae-head { left: calc(var(--cell) * 0.08); top: calc(50% - var(--cell) * 0.35); transform: rotate(270deg); }
+.g-arrow-escape .d-right .ae-head { right: calc(var(--cell) * 0.08); top: calc(50% - var(--cell) * 0.35); transform: rotate(90deg); }
+.g-arrow-escape .ae-piece:focus-visible { outline: 3px solid var(--accent); outline-offset: -2px; border-radius: 8px; }
+@media (hover: hover) {
+  .g-arrow-escape .ae-piece:hover { filter: brightness(1.15) saturate(1.2); }
+}
+.g-arrow-escape .ae-piece.crash { animation: ae-crash 0.4s; }
+@keyframes ae-crash {
+  25% { filter: drop-shadow(0 0 6px var(--red)); transform: scale(1.06); }
+  60% { transform: scale(0.96); }
+}
+.g-arrow-escape .ae-piece.blocker { animation: ae-block 0.6s; }
+@keyframes ae-block {
+  30% { filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 5px var(--red)); }
+}

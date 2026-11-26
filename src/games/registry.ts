@@ -1,0 +1,115 @@
+import type { GameMeta } from '../shell/types';
+
+/**
+ * Every game on the site, in hub order. `load` is a dynamic import, so each
+ * game's code (and CSS) is only downloaded when the player opens it.
+ * Card icons are inline SVG (viewBox 0 0 64 64).
+ */
+export const GAMES: GameMeta[] = [
+  {
+    id: 'bus-jam',
+    title: 'Bus Jam',
+    tagline: 'Clear the lot and get every passenger home.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="10" y="18" width="44" height="26" rx="7" fill="#f5c518"/><rect x="15" y="23" width="9" height="8" rx="2" fill="#fff8e1"/><rect x="27" y="23" width="9" height="8" rx="2" fill="#fff8e1"/><rect x="39" y="23" width="9" height="8" rx="2" fill="#fff8e1"/><circle cx="20" cy="46" r="5" fill="#1d1e2c"/><circle cx="44" cy="46" r="5" fill="#1d1e2c"/></svg>`,
+    load: () => import('./bus-jam/index').then((m) => m.default),
+  },
+  {
+    id: 'arrow-escape',
+    title: 'Arrow Escape',
+    tagline: 'Untangle the arrows without crashing.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M14 40h22" stroke="#46b04a" stroke-width="6" stroke-linecap="round"/><path d="M34 31l10 9-10 9z" fill="#46b04a"/><path d="M24 50V24" stroke="#3a6df0" stroke-width="6" stroke-linecap="round"/><path d="M15 26l9-11 9 11z" fill="#3a6df0"/><path d="M50 14v14" stroke="#f2812c" stroke-width="6" stroke-linecap="round"/><path d="M42 26l8 10 8-10z" fill="#f2812c"/></svg>`,
+    load: () => import('./arrow-escape/index').then((m) => m.default),
+  },
+  {
+    id: 'tile-tray',
+    title: 'Tile Tray',
+    tagline: 'Pick tiles off the pile, three of a kind clear.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="12" y="10" width="20" height="20" rx="5" fill="#f6efdc"/><rect x="26" y="18" width="20" height="20" rx="5" fill="#fffdf6"/><circle cx="36" cy="28" r="5" fill="#e5484d"/><rect x="8" y="44" width="48" height="12" rx="4" fill="#4a4e69"/><rect x="11" y="46" width="8" height="8" rx="2" fill="#fffdf6"/><rect x="21" y="46" width="8" height="8" rx="2" fill="#fffdf6"/></svg>`,
+    load: () => import('./tile-tray/index').then((m) => m.default),
+  },
+  {
+    id: 'color-tubes',
+    title: 'Color Tubes',
+    tagline: 'Pour until every tube holds one color.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g stroke="#d6d9e6" stroke-width="2.5" fill="none"><path d="M12 12v34a6 6 0 0 0 12 0V12"/><path d="M26 12v34a6 6 0 0 0 12 0V12"/><path d="M40 12v34a6 6 0 0 0 12 0V12"/></g><path d="M14 36h8v10a4 4 0 0 1-8 0z" fill="#e5484d"/><path d="M14 26h8v10h-8z" fill="#3a6df0"/><path d="M28 36h8v10a4 4 0 0 1-8 0z" fill="#3a6df0"/><path d="M28 26h8v10h-8z" fill="#e5484d"/><path d="M42 36h8v10a4 4 0 0 1-8 0z" fill="#f5c518"/></svg>`,
+    load: () => import('./color-tubes/index').then((m) => m.default),
+  },
+  {
+    id: 'pipe-turn',
+    title: 'Pipe Turn',
+    tagline: 'Rotate pipes until water reaches every tile.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g fill="#4cc3ff"><rect x="28" y="10" width="8" height="24" rx="2"/><rect x="28" y="28" width="26" height="8" rx="2"/><rect x="10" y="28" width="18" height="8" rx="2"/><rect x="10" y="28" width="8" height="26" rx="2"/></g><circle cx="32" cy="32" r="8" fill="#3a6df0"/><rect x="40" y="42" width="8" height="14" rx="2" fill="#8d92ad"/></svg>`,
+    load: () => import('./pipe-turn/index').then((m) => m.default),
+  },
+  {
+    id: 'screw-sort',
+    title: 'Screw Sort',
+    tagline: 'Unscrew the plates and box screws by color.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="16" width="34" height="26" rx="8" fill="#a9c4d6"/><rect x="22" y="26" width="34" height="26" rx="8" fill="#c9b79c" opacity=".95"/><circle cx="16" cy="24" r="5" fill="#e5484d"/><circle cx="32" cy="36" r="5" fill="#3a6df0"/><circle cx="46" cy="44" r="5" fill="#f5c518"/><circle cx="46" cy="33" r="5" fill="#46b04a"/></svg>`,
+    load: () => import('./screw-sort/index').then((m) => m.default),
+  },
+  {
+    id: 'block-fit',
+    title: 'Block Fit',
+    tagline: 'Place pieces, fill rows and columns, hit the target.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g><rect x="10" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="25" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="25" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="25" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="25" width="13" height="13" rx="3" fill="#f5c518"/></g></svg>`,
+    load: () => import('./block-fit/index').then((m) => m.default),
+  },
+  {
+    id: 'slide-out',
+    title: 'Slide Out',
+    tagline: 'Slide the blocks aside and free the red one.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="8" width="44" height="48" rx="5" fill="#c9ccdb"/><rect x="11" y="27" width="22" height="10" rx="3" fill="#e5484d"/><rect x="37" y="11" width="10" height="28" rx="3" fill="#3a6df0"/><rect x="11" y="42" width="30" height="10" rx="3" fill="#46b04a"/><rect x="50" y="27" width="8" height="10" fill="#c9ccdb"/></svg>`,
+    load: () => import('./slide-out/index').then((m) => m.default),
+  },
+  {
+    id: 'crate-push',
+    title: 'Crate Push',
+    tagline: 'Push every crate onto a target. No pulling!',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="8" width="48" height="48" rx="4" fill="#c9ccdb"/><rect x="8" y="8" width="48" height="8" fill="#4a4e69"/><rect x="8" y="8" width="8" height="48" fill="#4a4e69"/><rect x="28" y="22" width="18" height="18" rx="3" fill="#d39b4a" stroke="#9c6a24" stroke-width="3"/><circle cx="21" cy="31" r="6" fill="#3a6df0"/><circle cx="37" cy="48" r="4" fill="none" stroke="#46b04a" stroke-width="2.5"/></svg>`,
+    load: () => import('./crate-push/index').then((m) => m.default),
+  },
+  {
+    id: 'color-links',
+    title: 'Color Links',
+    tagline: 'Connect matching dots and fill the board.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M16 16h32v12H16v20h32" fill="none" stroke="#3a6df0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="6" fill="#3a6df0"/><circle cx="48" cy="48" r="6" fill="#3a6df0"/><path d="M28 38h20" stroke="#f2812c" stroke-width="6" stroke-linecap="round"/><circle cx="28" cy="38" r="6" fill="#f2812c"/><circle cx="48" cy="38" r="6" fill="#f2812c"/></svg>`,
+    load: () => import('./color-links/index').then((m) => m.default),
+  },
+  {
+    id: 'hex-stack',
+    title: 'Hex Stack',
+    tagline: 'Merge stacks by color; ten on top clear.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g stroke-width="1.5"><polygon points="32,38 44,45 44,52 32,59 20,52 20,45" fill="#3a6df0" stroke="#1f44a8"/><polygon points="32,32 44,39 44,46 32,53 20,46 20,39" fill="#3a6df0" stroke="#1f44a8"/><polygon points="32,26 44,33 44,40 32,47 20,40 20,33" fill="#46b04a" stroke="#2a7a2e"/><polygon points="32,20 44,27 44,34 32,41 20,34 20,27" fill="#46b04a" stroke="#2a7a2e"/><polygon points="32,14 44,21 44,28 32,35 20,28 20,21" fill="#f2812c" stroke="#b3540d"/></g></svg>`,
+    load: () => import('./hex-stack/index').then((m) => m.default),
+  },
+  {
+    id: 'train-switches',
+    title: 'Train Switches',
+    tagline: 'Set the switches so every train gets home safely.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M8 32h18l12-14h18M26 32l12 14h18" fill="none" stroke="#8d92ad" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="32" r="7" fill="#fff" stroke="#3a6df0" stroke-width="3"/><rect x="44" y="12" width="12" height="12" rx="3" fill="#e5484d"/><rect x="44" y="40" width="12" height="12" rx="3" fill="#46b04a"/><rect x="6" y="26" width="14" height="12" rx="4" fill="#e5484d"/></svg>`,
+    load: () => import('./train-switches/index').then((m) => m.default),
+  },
+  {
+    id: 'conveyor',
+    title: 'Conveyor Sorter',
+    tagline: 'Flip the switches in time to sort every parcel.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M32 8v16M32 24 16 42M32 24l16 18" stroke="#5d6280" stroke-width="9" stroke-linecap="round"/><circle cx="32" cy="24" r="6" fill="#fff" stroke="#3a6df0" stroke-width="3"/><rect x="8" y="44" width="16" height="12" rx="3" fill="#e5484d"/><rect x="40" y="44" width="16" height="12" rx="3" fill="#f5c518"/><rect x="27" y="7" width="10" height="10" rx="2" fill="#e5484d" stroke="#fff" stroke-width="1.5"/></svg>`,
+    load: () => import('./conveyor/index').then((m) => m.default),
+  },
+];
+
+export const findGame = (id: string): GameMeta | undefined => GAMES.find((g) => g.id === id);

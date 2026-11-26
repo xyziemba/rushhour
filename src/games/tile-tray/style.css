@@ -1,0 +1,83 @@
+.g-tile-tray .tt-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 4px 12px;
+}
+.g-tile-tray .tt-board {
+  --cell: 24px; /* half a tile */
+  position: relative;
+  width: calc(var(--cell) * var(--cols));
+  height: calc(var(--cell) * var(--rows));
+}
+.g-tile-tray .tt-tile {
+  position: absolute;
+  left: calc(var(--cell) * var(--x));
+  top: calc(var(--cell) * var(--y));
+  width: calc(var(--cell) * 2);
+  height: calc(var(--cell) * 2);
+  padding: calc(var(--cell) * 0.32);
+  border-radius: calc(var(--cell) * 0.35);
+  border: 1px solid #d9cfb4;
+  background: linear-gradient(#fffdf6, #f6efdc);
+  box-shadow: 0 calc(var(--cell) * 0.12) 0 #d9cfb4, 0 3px 6px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.14s, opacity 0.14s, filter 0.2s;
+}
+.g-tile-tray .tt-tile svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.g-tile-tray .tt-tile.covered {
+  filter: brightness(0.62) saturate(0.6);
+  cursor: default;
+}
+.g-tile-tray .tt-tile.taken {
+  transform: translateY(20%) scale(0.6);
+  opacity: 0;
+}
+@media (hover: hover) {
+  .g-tile-tray .tt-board .tt-tile:not(.covered):hover { transform: translateY(-2px); }
+}
+.g-tile-tray .tt-tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+
+.g-tile-tray .tt-tray {
+  flex: none;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  width: min(100% - 24px, 420px);
+  margin: 8px 12px max(14px, env(safe-area-inset-bottom));
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--road);
+}
+.g-tile-tray .tt-slot {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.g-tile-tray .tt-slot.warn { box-shadow: inset 0 0 0 2px var(--red); }
+.g-tile-tray .tt-tile.in-tray {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  left: 0;
+  top: 0;
+  padding: 18%;
+  border-radius: 9px;
+  box-shadow: 0 3px 0 #d9cfb4;
+  cursor: default;
+}
+.g-tile-tray .tt-tile.fresh { animation: tt-in 0.2s ease-out; }
+.g-tile-tray .tt-tile.clearing { animation: tt-clear 0.38s ease-in forwards; }
+@keyframes tt-in { from { transform: translateY(-40%) scale(0.7); opacity: 0; } }
+@keyframes tt-clear {
+  40% { transform: scale(1.15); filter: brightness(1.2); }
+  to { transform: scale(0.2); opacity: 0; }
+}

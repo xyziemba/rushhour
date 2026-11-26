@@ -1,0 +1,42 @@
+.g-conveyor .cv-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 8px;
+}
+.g-conveyor .cv-map { width: 100%; height: 100%; max-width: 760px; touch-action: manipulation; user-select: none; }
+.g-conveyor .cv-belt { stroke: var(--road); stroke-width: 22; stroke-linecap: round; }
+.g-conveyor .cv-belt-run {
+  stroke: var(--road-line);
+  stroke-width: 16;
+  stroke-dasharray: 3 9;
+  animation: cv-run 0.6s linear infinite;
+}
+@keyframes cv-run { to { stroke-dashoffset: -12; } }
+.g-conveyor .cv-chute { fill: var(--road); }
+.g-conveyor .cv-gate { cursor: pointer; outline: none; }
+.g-conveyor .cv-gate .hit { fill: transparent; }
+.g-conveyor .cv-gate .knob { fill: var(--surface); stroke: var(--accent); stroke-width: 4; }
+.g-conveyor .cv-gate:focus-visible .knob { fill: var(--accent); }
+.g-conveyor .cv-arrow { stroke: var(--accent); stroke-width: 8; stroke-linecap: round; }
+.g-conveyor .cv-bin rect { fill: var(--c); stroke: var(--cd); stroke-width: 3; }
+.g-conveyor .cv-bin text { fill: #fff; font-size: 14px; text-anchor: middle; }
+.g-conveyor .cv-bin .sym { display: none; }
+.g-conveyor.symbols .cv-bin .sym, .g-conveyor.symbols .cv-parcel .sym { display: block; }
+.g-conveyor .cv-bin.ok { animation: cv-ok 0.35s; }
+.g-conveyor .cv-bin.bad rect { animation: cv-bad 0.6s; }
+@keyframes cv-ok { 50% { opacity: 0.6; } }
+@keyframes cv-bad { 30% { stroke: var(--red); stroke-width: 7; } }
+.g-conveyor .cv-parcel rect { fill: var(--c); stroke: #fff; stroke-width: 2.5; }
+.g-conveyor .cv-parcel text { fill: #fff; font-size: 11px; text-anchor: middle; display: none; }
+.g-conveyor .cv-legend {
+  flex: none;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 6px 12px max(14px, env(safe-area-inset-bottom));
+}
+@media (prefers-reduced-motion: reduce) {
+  .g-conveyor .cv-belt-run { animation: none; }
+}

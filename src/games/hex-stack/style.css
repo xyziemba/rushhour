@@ -1,0 +1,56 @@
+.g-hex-stack .hs-goal {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.g-hex-stack .hs-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 4px 12px;
+}
+.g-hex-stack .hs-board {
+  width: 100%;
+  height: 100%;
+  max-width: 640px;
+}
+.g-hex-stack .hs-cell { cursor: pointer; outline: none; }
+.g-hex-stack .hs-base { fill: var(--lot); stroke: var(--lot-grid); stroke-width: 1.5; }
+.g-hex-stack .hs-cell.empty:hover .hs-base,
+.g-hex-stack .hs-cell:focus-visible .hs-base { fill: var(--sidewalk); stroke: var(--accent); }
+.g-hex-stack .hs-cell.open .hs-base { stroke: var(--accent); stroke-dasharray: 4 3; }
+.g-hex-stack .hs-tile { fill: var(--c); stroke: var(--cd); stroke-width: 1.4; }
+.g-hex-stack .hs-count {
+  fill: #fff;
+  font: 700 13px system-ui, sans-serif;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 2.5px;
+  pointer-events: none;
+}
+.g-hex-stack .hs-sym { font-size: 10px; text-anchor: middle; fill: #fff; pointer-events: none; }
+.g-hex-stack .hs-cell.pulse { animation: hs-pulse 0.3s ease-out; transform-box: fill-box; transform-origin: center; }
+@keyframes hs-pulse { 40% { transform: scale(1.06); } }
+.g-hex-stack .hs-offers {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: min(100% - 24px, 420px);
+  align-self: center;
+  margin: 6px 0 max(14px, env(safe-area-inset-bottom));
+}
+.g-hex-stack .hs-offer {
+  height: 96px;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  background: var(--surface);
+  cursor: pointer;
+  padding: 6px;
+}
+.g-hex-stack .hs-offer svg { width: 100%; height: 100%; }
+.g-hex-stack .hs-offer.selected { border-color: var(--accent); transform: translateY(-4px); }
+.g-hex-stack .hs-offer:disabled { opacity: 0.3; cursor: default; }
+.g-hex-stack .hs-offer .hs-count { font-size: 12px; }
