@@ -62,6 +62,30 @@ export const GAMES: GameMeta[] = [
     icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g><rect x="10" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="25" y="10" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="25" width="13" height="13" rx="3" fill="#3a6df0"/><rect x="10" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="25" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="41" width="13" height="13" rx="3" fill="#46b04a"/><rect x="41" y="25" width="13" height="13" rx="3" fill="#f5c518"/></g></svg>`,
     load: () => import('./block-fit/index').then((m) => m.default),
   },
+  {
+    id: 'slide-out',
+    title: 'Slide Out',
+    tagline: 'Slide the blocks aside and free the red one.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="8" width="44" height="48" rx="5" fill="#c9ccdb"/><rect x="11" y="27" width="22" height="10" rx="3" fill="#e5484d"/><rect x="37" y="11" width="10" height="28" rx="3" fill="#3a6df0"/><rect x="11" y="42" width="30" height="10" rx="3" fill="#46b04a"/><rect x="50" y="27" width="8" height="10" fill="#c9ccdb"/></svg>`,
+    load: () => import('./slide-out/index').then((m) => m.default),
+  },
+  {
+    id: 'crate-push',
+    title: 'Crate Push',
+    tagline: 'Push every crate onto a target. No pulling!',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><rect x="8" y="8" width="48" height="48" rx="4" fill="#c9ccdb"/><rect x="8" y="8" width="48" height="8" fill="#4a4e69"/><rect x="8" y="8" width="8" height="48" fill="#4a4e69"/><rect x="28" y="22" width="18" height="18" rx="3" fill="#d39b4a" stroke="#9c6a24" stroke-width="3"/><circle cx="21" cy="31" r="6" fill="#3a6df0"/><circle cx="37" cy="48" r="4" fill="none" stroke="#46b04a" stroke-width="2.5"/></svg>`,
+    load: () => import('./crate-push/index').then((m) => m.default),
+  },
+  {
+    id: 'color-links',
+    title: 'Color Links',
+    tagline: 'Connect matching dots and fill the board.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M16 16h32v12H16v20h32" fill="none" stroke="#3a6df0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="6" fill="#3a6df0"/><circle cx="48" cy="48" r="6" fill="#3a6df0"/><path d="M28 38h20" stroke="#f2812c" stroke-width="6" stroke-linecap="round"/><circle cx="28" cy="38" r="6" fill="#f2812c"/><circle cx="48" cy="38" r="6" fill="#f2812c"/></svg>`,
+    load: () => import('./color-links/index').then((m) => m.default),
+  },
 ];
 
 export const findGame = (id: string): GameMeta | undefined => GAMES.find((g) => g.id === id);

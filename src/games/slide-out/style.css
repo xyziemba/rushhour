@@ -1,0 +1,70 @@
+.g-slide-out .so-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 12px max(12px, env(safe-area-inset-bottom));
+}
+.g-slide-out .so-board {
+  --cell: 50px;
+  position: relative;
+  width: calc(var(--cell) * 6);
+  height: calc(var(--cell) * 6);
+  padding: 8px;
+  box-sizing: content-box;
+  border-radius: 14px;
+  border: 4px solid var(--road);
+  background:
+    linear-gradient(var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
+    linear-gradient(90deg, var(--lot-grid) 1px, transparent 1px) 0 0 / var(--cell) var(--cell) content-box,
+    var(--lot);
+  background-origin: content-box;
+  margin-right: calc(var(--cell) * 0.6);
+}
+.g-slide-out .so-exit {
+  position: absolute;
+  right: -4px;
+  top: calc(8px + var(--cell) * var(--exit) + 4px);
+  width: calc(var(--cell) * 0.6 + 8px);
+  height: calc(var(--cell) - 8px);
+  transform: translateX(100%);
+  background: repeating-linear-gradient(90deg, var(--red) 0 6px, transparent 6px 12px);
+  opacity: 0.5;
+  border-radius: 0 6px 6px 0;
+}
+.g-slide-out .so-exit::before {
+  content: '';
+  position: absolute;
+  left: calc(-8px - 4px);
+  top: -4px;
+  bottom: -4px;
+  width: 12px;
+  background: var(--lot);
+}
+.g-slide-out .so-block {
+  position: absolute;
+  left: calc(8px + var(--cell) * var(--x) + 3px);
+  top: calc(8px + var(--cell) * var(--y) + 3px);
+  width: calc(var(--cell) * var(--w) - 6px);
+  height: calc(var(--cell) * var(--h) - 6px);
+  border: 0;
+  border-radius: calc(var(--cell) * 0.18);
+  background: linear-gradient(rgba(255, 255, 255, 0.28), transparent 50%), var(--c);
+  box-shadow: inset 0 -5px 0 var(--cd), 0 3px 6px rgba(0, 0, 0, 0.25);
+  cursor: grab;
+  touch-action: none;
+  transition: left 0.15s ease-out, top 0.15s ease-out, transform 0.15s ease-out;
+}
+.g-slide-out .so-block.dragging { transition: none; cursor: grabbing; z-index: 2; filter: brightness(1.08); }
+.g-slide-out .so-block::after {
+  content: '';
+  position: absolute;
+  inset: 30%;
+  border-radius: 4px;
+  opacity: 0.35;
+}
+.g-slide-out .so-block.h::after { background: repeating-linear-gradient(90deg, #fff 0 3px, transparent 3px 8px); inset: 35% 25%; }
+.g-slide-out .so-block.v::after { background: repeating-linear-gradient(0deg, #fff 0 3px, transparent 3px 8px); inset: 25% 35%; }
+.g-slide-out .so-block.target::after { background: none; content: '➜'; color: #fff; opacity: 0.9; inset: 0; display: grid; place-items: center; font-size: calc(var(--cell) * 0.45); }
+.g-slide-out .so-block.escape { transform: translateX(calc(var(--cell) * 3)); opacity: 0; transition: transform 0.35s ease-in, opacity 0.35s ease-in; }
+.g-slide-out .so-block:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

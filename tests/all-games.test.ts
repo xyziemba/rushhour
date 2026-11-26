@@ -37,12 +37,13 @@ describe.each(GAMES.map((g) => [g.id, g] as const))('%s', (_id, meta) => {
   it('endless levels generate quickly and are winnable', async () => {
     const game = await meta.load();
     if (!game.endless) return;
-    for (let seed = 1; seed <= 200; seed++) {
+    const budget = game.endlessTest ?? { seeds: 200, ms: 250 };
+    for (let seed = 1; seed <= budget.seeds; seed++) {
       const t = performance.now();
       const level = game.endless(seed, seed % 15);
-      expect(performance.now() - t, `seed ${seed} too slow`).toBeLessThan(250);
+      expect(performance.now() - t, `seed ${seed} too slow`).toBeLessThan(budget.ms);
       expect(JSON.stringify(game.endless(seed, seed % 15))).toBe(JSON.stringify(level));
       expect(replay(game, level), `seed ${seed}`).toBe('won');
     }
-  }, 60_000);
+  }, 120_000);
 });

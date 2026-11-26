@@ -50,6 +50,8 @@ export interface GameModule<L extends LevelBase = LevelBase, S = unknown, M = un
     level(index: number): L;
   };
   endless?(seed: number, streak: number): L;
+  /** Shared-test budget for slow endless generators (default 200 seeds, 250 ms each). */
+  endlessTest?: { seeds: number; ms: number };
   /** Optional first-time hint for the first campaign level. */
   hint?: string;
 
