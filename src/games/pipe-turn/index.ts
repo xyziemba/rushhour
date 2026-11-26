@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign, starsByPar } from '../../shell/helpers';
+import { makeCampaign, plural, starsByPar } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import { generate, init, status, turn, type Level, type Params, type State } from './rules';
 import { PipeView } from './view';
@@ -42,7 +42,9 @@ const game: GameModule<Level, State, number, unknown> = {
   status,
   lossMessage: () => ({ title: 'Stuck', body: '' }),
   stars: (_s, stats, level) => starsByPar(stats.moves, level.par),
-  hudText: (_s, stats) => `${stats.moves} turns`,
+  tracksBest: true,
+  hudText: (_s, stats, level) => `${plural(stats.moves, 'turn')} · target ${level.par}`,
+  resultText: (_s, stats, level) => `${plural(stats.moves, 'turn')} (target ${level.par})`,
   mountView: (host, ctx, level, state) => new PipeView(host, ctx, level, state),
 };
 

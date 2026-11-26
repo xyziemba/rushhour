@@ -1,6 +1,12 @@
 /** Small helpers most games share. */
 import type { LevelBase, Stars } from './types';
 
+/** "No undos", "1 undo", "3 undos". */
+export const undoText = (undos: number): string => (undos === 0 ? 'No undos' : `${undos} ${undos === 1 ? 'undo' : 'undos'}`);
+
+/** "1 move", "4 pours"... */
+export const plural = (n: number, one: string, many = `${one}s`): string => `${n} ${n === 1 ? one : many}`;
+
 /** For games where every win takes the same number of moves: reward undo-free play. */
 export const starsByUndos = (undos: number): Stars => (undos === 0 ? 3 : undos <= 2 ? 2 : 1);
 

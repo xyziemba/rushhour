@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign, starsByUndos } from '../../shell/helpers';
+import { makeCampaign, starsByUndos, undoText } from '../../shell/helpers';
 import type { GameModule } from '../../shell/types';
 import { generate, init, pickTile, status, type Event, type Level, type Params, type State } from './rules';
 import { TileTrayView } from './view';
@@ -45,6 +45,7 @@ const game: GameModule<Level, State, string, Event> = {
   lossMessage: () => ({ title: 'Tray full!', body: 'All 7 slots filled up without a match. Collect tiles in threes.' }),
   stars: (_s, stats) => starsByUndos(stats.undos),
   hudText: (s) => `${s.tiles.length} tiles left`,
+  resultText: (_s, stats) => undoText(stats.undos),
   mountView: (host, ctx, level, state) => new TileTrayView(host, ctx, level, state),
 };
 

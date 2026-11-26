@@ -523,5 +523,15 @@ kbd {
   .hud-moves {
     font-size: 0.78rem;
     margin-right: 0;
+    text-align: right;
+    line-height: 1.25;
+  }
+  /* "4 pours · target 17" becomes two short lines instead of squeezing the level name. */
+  .hud-part {
+    display: block;
+    white-space: nowrap;
+  }
+  .hud-sep {
+    display: none;
   }
 }

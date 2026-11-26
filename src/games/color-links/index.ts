@@ -1,5 +1,5 @@
 import './style.css';
-import { makeCampaign } from '../../shell/helpers';
+import { makeCampaign, plural } from '../../shell/helpers';
 import type { GameModule, Stars } from '../../shell/types';
 import { draw, generate, init, status, type Level, type Move, type Params, type State } from './rules';
 import { LinksView } from './view';
@@ -43,7 +43,9 @@ const game: GameModule<Level, State, Move, unknown> = {
   status,
   lossMessage: () => ({ title: 'Stuck', body: '' }),
   stars: (s, stats): Stars => (stats.moves <= s.pairs.length ? 3 : stats.moves <= s.pairs.length + 3 ? 2 : 1),
-  hudText: (_s, stats) => `${stats.moves} lines`,
+  tracksBest: true,
+  hudText: (s, stats) => `${plural(stats.moves, 'line')} · ${s.pairs.length} needed`,
+  resultText: (s, stats) => (stats.moves <= s.pairs.length ? 'Every line drawn once' : `${plural(stats.moves, 'line')} drawn (${s.pairs.length} needed)`),
   mountView: (host, ctx, level, state) => new LinksView(host, ctx, level, state),
 };
 

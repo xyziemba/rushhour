@@ -109,12 +109,13 @@ export function saveProgress(gameId: string, update: Partial<GameProgress>): Gam
 }
 
 /** Record a finished campaign level, keeping the best stars and moves. */
-export function recordWin(gameId: string, levelIndex: number, levelId: string, stars: Stars, moves: number, levelCount: number): GameProgress {
+/** Record a finished campaign level. `moves` is only kept for games where fewer moves is better. */
+export function recordWin(gameId: string, levelIndex: number, levelId: string, stars: Stars, moves: number | null, levelCount: number): GameProgress {
   const p = getProgress(gameId);
   return saveProgress(gameId, {
     unlocked: Math.max(p.unlocked, Math.min(levelCount - 1, levelIndex + 1)),
     stars: { ...p.stars, [levelId]: Math.max(p.stars[levelId] ?? 0, stars) as Stars },
-    best: { ...p.best, [levelId]: Math.min(p.best[levelId] ?? Infinity, moves) },
+    best: moves === null ? p.best : { ...p.best, [levelId]: Math.min(p.best[levelId] ?? Infinity, moves) },
   });
 }
 

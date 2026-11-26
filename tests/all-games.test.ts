@@ -22,6 +22,16 @@ describe.each(GAMES.map((g) => [g.id, g] as const))('%s', (_id, meta) => {
     expect(game.howToPlay.length).toBeGreaterThan(0);
   });
 
+  it('describes a win in its own terms', async () => {
+    const game = await meta.load();
+    // Every game says what mattered (undos, crashes, score, moves vs target...), not a bare move count.
+    expect(game.resultText, 'resultText').toBeTypeOf('function');
+    const level = game.campaign.level(0);
+    const text = game.resultText!(game.init(level), { moves: 7, undos: 0 }, level);
+    expect(text.length).toBeGreaterThan(0);
+    if (!game.tracksBest) expect(text).not.toMatch(/^7 moves$/);
+  });
+
   it('campaign levels are deterministic, start in play and have a winning solution', async () => {
     const game = await meta.load();
     const ids = new Set<string>();

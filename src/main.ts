@@ -65,7 +65,7 @@ function startLevel(meta: GameMeta, game: GameModule<any, any, any, any>, r: Ext
       onMenu: back,
       onWin: ({ stars, moves }) => {
         const before = getProgress(meta.id);
-        const after = recordWin(meta.id, r.index, level.id, stars, moves, game.campaign.count);
+        const after = recordWin(meta.id, r.index, level.id, stars, game.tracksBest ? moves : null, game.campaign.count);
         return {
           best: before.best[level.id],
           bestStars: after.stars[level.id],

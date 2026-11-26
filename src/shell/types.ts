@@ -67,7 +67,14 @@ export interface GameModule<L extends LevelBase = LevelBase, S = unknown, M = un
   lossMessage(state: S): { title: string; body: string };
   stars(state: S, stats: PlayStats, level: L): Stars;
   /** HUD counter text; defaults to "N moves". */
-  hudText?(state: S, stats: PlayStats): string;
+  hudText?(state: S, stats: PlayStats, level: L): string;
+  /** The win card's summary line (e.g. "No undos", "Score 214 / 205"); defaults to "N moves". */
+  resultText?(state: S, stats: PlayStats, level: L): string;
+  /**
+   * True when fewer moves is genuinely better (moves are compared with a target).
+   * Only then is a best move count saved and shown.
+   */
+  tracksBest?: boolean;
 
   mountView(host: HTMLElement, ctx: ViewContext<M>, level: L, state: S): GameView<S, M, E>;
 }
