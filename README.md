@@ -22,6 +22,10 @@ Small puzzle games that run in the browser. It's front end only: no server, no a
 
 Every game has 10 campaign levels with 1–3 star ratings and an Endless mode. On the home screen, "Show color symbols" adds shapes for players who find colors hard to tell apart, and "Relaxed speed" slows the timed game. Keys: `U` undo, `R` restart, `Esc` back (`P` pauses the timed game).
 
+## Offline / install
+
+The site is a Progressive Web App and works with no connection. Open it once while online: a service worker (`vite-plugin-pwa`) caches every game. To install it on an iPad or iPhone, open the site in Safari and choose **Share → Add to Home Screen**. It then opens full screen from its icon, even in airplane mode. Install it instead of using a Safari tab: Safari may clear a site's cached files and saved progress after about a week of not visiting, but home-screen apps are exempt. A newly deployed version downloads in the background and switches over the next time you return to the home screen, never in the middle of a level.
+
 ## Development
 
 ```sh

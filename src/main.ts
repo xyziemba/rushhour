@@ -7,6 +7,7 @@ import { renderHub, renderLevelSelect } from './shell/pages';
 import { isLegacyHash, parseRoute, routeHash, type Route } from './shell/router';
 import { getProgress, getSettings, recordWin, saveProgress, saveSettings } from './shell/storage';
 import type { GameMeta, GameModule } from './shell/types';
+import { registerSW } from 'virtual:pwa-register';
 
 const app = document.getElementById('app')!;
 let current: { destroy(): void } | null = null;
@@ -27,6 +28,8 @@ async function route(): Promise<void> {
   current = null;
   const r = parseRoute(location.hash);
   if (r.kind === 'hub') {
+    // A new version finished downloading: switch to it now, while nothing is in progress.
+    if (updateReady) return void applyUpdate(true);
     document.title = 'Puzzle Lot';
     renderHub(app, go);
     return;
@@ -94,6 +97,23 @@ function startLevel(meta: GameMeta, game: GameModule<any, any, any, any>, r: Ext
     },
   });
 }
+
+// Offline support: the service worker caches the whole app on the first online visit.
+// When a newer version has been downloaded it waits, and is applied the next time the
+// player returns to the home screen (or on the next launch).
+let updateReady = false;
+const applyUpdate = registerSW({
+  onNeedRefresh() {
+    updateReady = true;
+    if (parseRoute(location.hash).kind === 'hub') void applyUpdate(true);
+  },
+  onRegisteredSW(_url, registration) {
+    // An installed home-screen app can stay open for days; look for updates when it comes back.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && navigator.onLine) void registration?.update();
+    });
+  },
+});
 
 window.addEventListener('hashchange', () => void route());
 void route();
