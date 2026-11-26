@@ -78,6 +78,13 @@ export class GameShell<L extends LevelBase, S, M, E> {
       reducedMotion,
     };
     this.view = game.mountView(host, ctx, level, this.state);
+    // Hook for browser smoke tests: replay a level's stored solution through the real UI.
+    (window as unknown as { __puzzlelot?: unknown }).__puzzlelot = {
+      level,
+      play: (m: M) => this.play(m),
+      state: () => this.state,
+      busy: () => this.busy,
+    };
     document.addEventListener('keydown', this.onKey);
     this.refreshHud();
     if (opts.hint) this.toast(opts.hint, 4500);

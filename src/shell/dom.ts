@@ -19,6 +19,7 @@ export function pulseClass(e: Element, cls: string, ms: number): void {
 
 /**
  * Keep `--cell` on `board` sized so a cols×rows grid fits inside `wrap`.
+ * `pad` is the board's own padding + border (both sides), in px.
  * Returns a cleanup function.
  */
 export function fitCells(
@@ -29,8 +30,11 @@ export function fitCells(
   { min = 24, max = 76, pad = 16 } = {},
 ): () => void {
   const fit = () => {
-    const { clientWidth: w, clientHeight: h } = wrap;
-    if (!w || !h) return;
+    // Usable space = the wrapper's content box (minus its padding).
+    const cs = getComputedStyle(wrap);
+    const w = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const h = wrap.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    if (w <= 0 || h <= 0) return;
     const cell = Math.max(min, Math.min(max, Math.floor(Math.min((w - pad) / cols, (h - pad) / rows))));
     board.style.setProperty('--cell', `${cell}px`);
   };

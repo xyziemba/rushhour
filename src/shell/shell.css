@@ -508,3 +508,20 @@ kbd {
 .level-btn .stars {
   font-size: 0.85rem;
 }
+
+/* Narrow phones: give the level name more room in the HUD. */
+@media (max-width: 360px) {
+  .hud {
+    gap: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .hud-moves {
+    font-size: 0.78rem;
+    margin-right: 0;
+  }
+}

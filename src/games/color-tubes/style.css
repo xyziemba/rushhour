@@ -1,0 +1,67 @@
+.g-color-tubes .ct-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px 12px max(16px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+}
+.g-color-tubes .ct-row {
+  /* Up to 6 tubes per row on phones; tube width scales with the screen. */
+  --tw: clamp(38px, min(calc((100vw - 40px) / min(var(--n), 6) - 12px), 64px), 64px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px 12px;
+  max-width: 720px;
+}
+.g-color-tubes .ct-tube {
+  width: var(--tw);
+  height: calc(var(--tw) * 0.92 * var(--cap) + 14px);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+  padding: 4px 4px 6px;
+  border: 3px solid var(--line);
+  border-top-width: 0;
+  border-radius: 0 0 calc(var(--tw) / 2) calc(var(--tw) / 2);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  cursor: pointer;
+  transition: transform 0.15s;
+  position: relative;
+}
+.g-color-tubes .ct-tube::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -6px;
+  right: -6px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--line);
+}
+.g-color-tubes .ct-tube.selected {
+  transform: translateY(-14px);
+  border-color: var(--accent);
+}
+.g-color-tubes .ct-tube.selected::before { background: var(--accent); }
+.g-color-tubes .ct-tube:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.g-color-tubes .ct-seg {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--tw) * 0.3);
+}
+.g-color-tubes .ct-seg:not(.empty) {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.25), transparent 40%), var(--c);
+}
+.g-color-tubes .ct-seg:first-child { border-radius: 0 0 calc(var(--tw) / 2 - 4px) calc(var(--tw) / 2 - 4px); }
+.g-color-tubes .ct-seg.fresh { animation: ct-fill 0.22s ease-out; }
+@keyframes ct-fill { from { transform: translateY(-60%); opacity: 0.3; } }
+.g-color-tubes .ct-tube.shake { animation: ct-shake 0.35s; }
+@keyframes ct-shake {
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
