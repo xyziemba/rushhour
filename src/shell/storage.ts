@@ -16,6 +16,8 @@ export interface GameProgress {
 
 export interface Settings {
   symbols: boolean;
+  /** Slow down timed games. */
+  relaxed?: boolean;
   lastGame?: string;
 }
 

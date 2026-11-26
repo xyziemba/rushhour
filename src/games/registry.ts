@@ -86,6 +86,30 @@ export const GAMES: GameMeta[] = [
     icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M16 16h32v12H16v20h32" fill="none" stroke="#3a6df0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="6" fill="#3a6df0"/><circle cx="48" cy="48" r="6" fill="#3a6df0"/><path d="M28 38h20" stroke="#f2812c" stroke-width="6" stroke-linecap="round"/><circle cx="28" cy="38" r="6" fill="#f2812c"/><circle cx="48" cy="38" r="6" fill="#f2812c"/></svg>`,
     load: () => import('./color-links/index').then((m) => m.default),
   },
+  {
+    id: 'hex-stack',
+    title: 'Hex Stack',
+    tagline: 'Merge stacks by color; ten on top clear.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><g stroke-width="1.5"><polygon points="32,38 44,45 44,52 32,59 20,52 20,45" fill="#3a6df0" stroke="#1f44a8"/><polygon points="32,32 44,39 44,46 32,53 20,46 20,39" fill="#3a6df0" stroke="#1f44a8"/><polygon points="32,26 44,33 44,40 32,47 20,40 20,33" fill="#46b04a" stroke="#2a7a2e"/><polygon points="32,20 44,27 44,34 32,41 20,34 20,27" fill="#46b04a" stroke="#2a7a2e"/><polygon points="32,14 44,21 44,28 32,35 20,28 20,21" fill="#f2812c" stroke="#b3540d"/></g></svg>`,
+    load: () => import('./hex-stack/index').then((m) => m.default),
+  },
+  {
+    id: 'train-switches',
+    title: 'Train Switches',
+    tagline: 'Set the switches so every train gets home safely.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M8 32h18l12-14h18M26 32l12 14h18" fill="none" stroke="#8d92ad" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="32" r="7" fill="#fff" stroke="#3a6df0" stroke-width="3"/><rect x="44" y="12" width="12" height="12" rx="3" fill="#e5484d"/><rect x="44" y="40" width="12" height="12" rx="3" fill="#46b04a"/><rect x="6" y="26" width="14" height="12" rx="4" fill="#e5484d"/></svg>`,
+    load: () => import('./train-switches/index').then((m) => m.default),
+  },
+  {
+    id: 'conveyor',
+    title: 'Conveyor Sorter',
+    tagline: 'Flip the switches in time to sort every parcel.',
+    levels: 10,
+    icon: `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2b2d42"/><path d="M32 8v16M32 24 16 42M32 24l16 18" stroke="#5d6280" stroke-width="9" stroke-linecap="round"/><circle cx="32" cy="24" r="6" fill="#fff" stroke="#3a6df0" stroke-width="3"/><rect x="8" y="44" width="16" height="12" rx="3" fill="#e5484d"/><rect x="40" y="44" width="16" height="12" rx="3" fill="#f5c518"/><rect x="27" y="7" width="10" height="10" rx="2" fill="#e5484d" stroke="#fff" stroke-width="1.5"/></svg>`,
+    load: () => import('./conveyor/index').then((m) => m.default),
+  },
 ];
 
 export const findGame = (id: string): GameMeta | undefined => GAMES.find((g) => g.id === id);

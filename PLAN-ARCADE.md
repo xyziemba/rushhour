@@ -337,4 +337,12 @@ This is today's game, moved into `games/bus-jam` without rule changes. **Optiona
 
 ## 9. Status
 
-- **Phase 0: done.** Hub, shell, router, storage v2 with migration from the old save, old-link redirects, code-split games, shared registry tests.
+All phases are built: 13 games, each with 10 levels, stars and Endless mode.
+
+**Differences from the plan:**
+- **Slide Out and Crate Push campaigns are pre-generated.** Finding hard puzzles takes seconds, so `npm run gen-levels` writes them to JSON, and the tests confirm that the stored pars are optimal. Endless puzzles for these two still generate in the browser and can take up to about a second.
+- **Tile Tray uses 12 inline-SVG icons** instead of emoji, so they look the same on every device.
+- **Train Switches is planning mode only.** The live mode (flipping switches while trains run) is not built.
+- **Conveyor Sorter:** "Relaxed speed" is a setting on the home screen (60% speed). Levels are checked so that playing with no input loses.
+- **Color Links has no keyboard drawing yet.** It needs a mouse or touch.
+- **Color Tubes uses at most 8 colors** (the shared palette) instead of 12.

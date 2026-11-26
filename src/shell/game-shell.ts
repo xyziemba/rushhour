@@ -40,6 +40,11 @@ export class GameShell<L extends LevelBase, S, M, E> {
   private overlay: HTMLElement;
   private toastEl: HTMLElement;
   private toastTimer = 0;
+  // Real-time games only.
+  private raf = 0;
+  private lastFrame = 0;
+  private paused = false;
+  private pauseBtn: HTMLButtonElement | null = null;
 
   constructor(
     container: HTMLElement,
@@ -60,6 +65,10 @@ export class GameShell<L extends LevelBase, S, M, E> {
     const restartBtn = iconButton('⟲', 'Restart (R)', () => this.restart());
     hud.append(menuBtn, title, this.counterEl);
     if (game.kind === 'turn') hud.append(this.undoBtn);
+    else {
+      this.pauseBtn = iconButton('⏸', 'Pause (P)', () => this.setPaused(!this.paused));
+      hud.append(this.pauseBtn);
+    }
     hud.append(restartBtn);
 
     const host = el('div', 'board-host');
@@ -88,27 +97,88 @@ export class GameShell<L extends LevelBase, S, M, E> {
     document.addEventListener('keydown', this.onKey);
     this.refreshHud();
     if (opts.hint) this.toast(opts.hint, 4500);
+    if (game.kind === 'realtime') {
+      document.addEventListener('visibilitychange', this.onVisibility);
+      this.raf = requestAnimationFrame(this.frame);
+    }
   }
 
   destroy(): void {
     this.view.destroy();
     document.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('visibilitychange', this.onVisibility);
+    cancelAnimationFrame(this.raf);
+    this.raf = -1;
     clearTimeout(this.toastTimer);
+  }
+
+  // ---------- real-time loop ----------
+
+  private frame = (now: number) => {
+    if (this.raf === -1) return;
+    const dt = this.lastFrame ? Math.min(50, now - this.lastFrame) : 0;
+    this.lastFrame = now;
+    if (!this.paused && !this.ended && this.game.tick) {
+      this.state = this.game.tick(this.state, dt);
+      if (this.view.frame) this.view.frame(this.state);
+      else this.view.render(this.state);
+      this.refreshHud();
+      this.checkEnd();
+    }
+    this.raf = requestAnimationFrame(this.frame);
+  };
+
+  private onVisibility = () => {
+    if (document.hidden && !this.ended) this.setPaused(true);
+  };
+
+  private setPaused(paused: boolean): void {
+    if (this.ended || this.game.kind !== 'realtime') return;
+    this.paused = paused;
+    this.lastFrame = 0;
+    if (this.pauseBtn) this.pauseBtn.innerHTML = `<span aria-hidden="true">${paused ? '▶' : '⏸'}</span>`;
+    if (!paused) {
+      this.overlay.hidden = true;
+      return;
+    }
+    const card = el('div', 'card');
+    card.setAttribute('role', 'dialog');
+    card.setAttribute('aria-label', 'Paused');
+    card.append(el('h2', '', 'Paused'));
+    const actions = el('div', 'actions');
+    actions.append(
+      button('Resume', () => this.setPaused(false), true),
+      button('Restart', () => this.restart()),
+      button('Levels', () => this.opts.onMenu()),
+    );
+    card.append(actions);
+    this.openOverlay(card);
   }
 
   private onKey = (e: KeyboardEvent) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key.toLowerCase();
     if (k === 'u' && this.game.kind === 'turn') this.undo();
-    else if (k === 'r') this.restart();
+    else if (k === 'p' && this.game.kind === 'realtime') {
+      this.setPaused(!this.paused);
+    } else if (k === 'r') this.restart();
     else if (k === 'escape') this.opts.onMenu();
   };
 
   async play(move: M): Promise<void> {
-    if (this.busy || this.ended) return;
+    if (this.busy || this.ended || this.paused) return;
     const result = this.game.apply(this.state, move);
     if (!result.ok) {
       this.view.reject?.(this.state, move, result.reason, result.detail);
+      return;
+    }
+    if (this.game.kind === 'realtime') {
+      // No history or animation wait: the frame loop keeps drawing.
+      this.state = result.state;
+      this.stats.moves++;
+      if (this.view.frame) this.view.frame(this.state);
+      else this.view.render(this.state);
+      this.refreshHud();
       return;
     }
     this.busy = true;
@@ -143,6 +213,9 @@ export class GameShell<L extends LevelBase, S, M, E> {
     this.history = [];
     this.stats = { moves: 0, undos: 0 };
     this.ended = false;
+    this.paused = false;
+    this.lastFrame = 0;
+    if (this.pauseBtn) this.pauseBtn.innerHTML = '<span aria-hidden="true">⏸</span>';
     this.overlay.hidden = true;
     this.view.render(this.state);
     this.refreshHud();

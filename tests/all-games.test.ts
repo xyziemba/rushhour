@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { GAMES } from '../src/games/registry';
 import type { GameModule, LevelBase } from '../src/shell/types';
 
-/** Replay a level's stored solution through the game's public `apply`. */
+/** Replay a level's stored solution through the game's public `apply` (or let a real-time game's bot play). */
 function replay(game: GameModule<any, any, any, any>, level: LevelBase): string {
+  if (game.kind === 'realtime') return game.autoplay!(level);
   let state = game.init(level);
   for (const move of level.solution ?? []) {
     const r = game.apply(state, move);
@@ -29,8 +30,14 @@ describe.each(GAMES.map((g) => [g.id, g] as const))('%s', (_id, meta) => {
       expect(ids.has(level.id), `duplicate level id ${level.id}`).toBe(false);
       ids.add(level.id);
       expect(game.status(game.init(level))).toBe('playing');
-      expect(level.solution?.length, `level ${i + 1} has no stored solution`).toBeGreaterThan(0);
+      if (game.kind === 'turn') expect(level.solution?.length, `level ${i + 1} has no stored solution`).toBeGreaterThan(0);
       expect(replay(game, level), `level ${i + 1}`).toBe('won');
+      if (game.kind === 'realtime' && game.tick) {
+        // Doing nothing must not win a timed level.
+        let idle = game.init(level);
+        for (let k = 0; k < 100_000 && game.status(idle) === 'playing'; k++) idle = game.tick(idle, 50);
+        expect(game.status(idle), `level ${i + 1} wins with no input`).toBe('lost');
+      }
     }
   });
 

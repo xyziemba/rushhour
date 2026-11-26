@@ -22,6 +22,7 @@ export function renderHub(app: HTMLElement, go: Navigate): void {
     <div class="game-grid"></div>
     <section class="settings">
       <label class="toggle"><input type="checkbox" data-symbols ${settings.symbols ? 'checked' : ''}/> Show color symbols</label>
+      <label class="toggle"><input type="checkbox" data-relaxed ${settings.relaxed ? 'checked' : ''}/> Relaxed speed in timed games</label>
       <button class="btn subtle" data-reset>Reset progress</button>
     </section>
   `;
@@ -30,6 +31,9 @@ export function renderHub(app: HTMLElement, go: Navigate): void {
 
   page.querySelector<HTMLInputElement>('[data-symbols]')!.addEventListener('change', (e) => {
     saveSettings({ symbols: (e.target as HTMLInputElement).checked });
+  });
+  page.querySelector<HTMLInputElement>('[data-relaxed]')!.addEventListener('change', (e) => {
+    saveSettings({ relaxed: (e.target as HTMLInputElement).checked });
   });
   page.querySelector('[data-reset]')!.addEventListener('click', () => {
     if (confirm('Reset progress for every game? This cannot be undone.')) {

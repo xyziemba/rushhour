@@ -35,6 +35,8 @@ export interface GameView<S, M, E> {
   render(state: S): void;
   /** Animate a successful move. When the promise resolves the view must show `next`. */
   animate(prev: S, next: S, move: M, events: E[]): Promise<void>;
+  /** Real-time games: cheap per-frame update (falls back to render). */
+  frame?(state: S): void;
   /** Feedback for a refused move (shake, flash, toast...). */
   reject?(state: S, move: M, reason: string, detail?: unknown): void;
   destroy(): void;
@@ -56,6 +58,10 @@ export interface GameModule<L extends LevelBase = LevelBase, S = unknown, M = un
   hint?: string;
 
   init(level: L): S;
+  /** Real-time games: advance the clock by `dtMs`. */
+  tick?(state: S, dtMs: number): S;
+  /** Real-time games: a perfect player, used by the shared tests to prove levels winnable. */
+  autoplay?(level: L): Status;
   apply(state: S, move: M): ApplyResult<S, E>;
   status(state: S): Status;
   lossMessage(state: S): { title: string; body: string };
